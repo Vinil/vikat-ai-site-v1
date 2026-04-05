@@ -1,0 +1,99 @@
+/* ═══════════════════════════════════════════════
+   VIKAT.AI — SHARED NAV COMPONENT (nav.css)
+   Include on every page: <link rel="stylesheet" href="nav.css">
+   ═══════════════════════════════════════════════ */
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(28px,5vw,72px);height:68px;
+  background:rgba(5,5,7,.96);backdrop-filter:blur(28px) saturate(1.4);
+  border-bottom:1px solid var(--w04);
+  transition:border-color .5s;
+}
+nav.scrolled{border-color:rgba(0,212,255,.1)}
+
+.logo{display:flex;align-items:center;gap:10px;position:relative;z-index:2}
+.logo-m{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;font-weight:700;font-size:15px;color:var(--bg)}
+.logo-t{font-weight:600;font-size:18px;letter-spacing:-.4px}
+.logo-t i{font-style:normal;color:var(--cyan)}
+
+.nav-l{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-l a{font-size:14px;font-weight:400;color:var(--w60);transition:color .25s}
+.nav-l a:hover{color:var(--w)}
+.nav-l a.active{color:var(--cyan)}
+.nav-c{font-size:13px;font-weight:500;padding:9px 24px;border-radius:100px;border:1px solid var(--w08);color:var(--w80);transition:all .3s}
+.nav-c:hover{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 24px rgba(0,212,255,.12)}
+
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:2}
+.ham span{width:22px;height:1.5px;background:var(--w);display:block}
+
+/* ═══ MEGA MENU ═══ */
+.mega-parent{position:relative;display:flex;align-items:center;height:100%}
+.mega-menu{
+  position:absolute;top:100%;right:0;width:560px;
+  background:#141720;
+  border:1px solid rgba(242,244,250,.15);
+  border-radius:14px;padding:24px;
+  opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:all .25s;pointer-events:none;margin-top:0;
+  box-shadow:0 24px 80px rgba(0,0,0,.8),0 0 0 1px rgba(242,244,250,.08),0 0 60px rgba(0,0,0,.5);
+}
+.mega-menu::before{content:'';position:absolute;top:-24px;left:0;right:0;height:28px;background:transparent}
+.mega-parent:hover .mega-menu{opacity:1;visibility:visible;transform:translateY(0);pointer-events:all}
+.mega-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mega-col-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--w60);padding:6px 12px;margin-bottom:8px;font-weight:500}
+.mega-link{display:block;padding:10px 12px;border-radius:8px;transition:background .2s}
+.mega-link:hover{background:rgba(242,244,250,.06)}
+.mega-link .ml-t{font-size:13px;font-weight:600;color:var(--w)}
+.mega-link .ml-d{font-size:11px;color:var(--w60);margin-top:2px}
+
+/* ═══ RICH MEGA CARDS (Solutions) ═══ */
+.mega-card{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 16px;border-radius:10px;
+  border:1px solid var(--w04);
+  margin-bottom:8px;transition:all .25s;
+  text-decoration:none;color:inherit;
+}
+.mega-card:last-child{margin-bottom:0}
+.mega-card:hover{border-color:var(--w08);background:rgba(242,244,250,.03);transform:translateX(4px)}
+.mega-card .mc-icon{
+  width:42px;height:42px;border-radius:10px;
+  display:grid;place-items:center;font-size:18px;flex-shrink:0;
+}
+.mc-icon.mc-cyan{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15)}
+.mc-icon.mc-violet{background:rgba(110,86,255,.08);border:1px solid rgba(110,86,255,.15)}
+.mc-icon.mc-green{background:rgba(0,230,138,.08);border:1px solid rgba(0,230,138,.15)}
+.mc-icon.mc-orange{background:rgba(255,122,69,.08);border:1px solid rgba(255,122,69,.15)}
+.mega-card .mc-text{flex:1;min-width:0}
+.mega-card .mc-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.mega-card .mc-desc{font-size:11px;color:var(--w60);line-height:1.5}
+.mega-card .mc-tag{
+  font-family:var(--mono);font-size:8px;text-transform:uppercase;
+  letter-spacing:1.2px;display:inline-block;margin-top:6px;
+  padding:3px 9px;border-radius:100px;
+}
+.mc-tag.mct-cyan{color:var(--cyan);background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.1)}
+.mc-tag.mct-violet{color:var(--violet);background:rgba(110,86,255,.06);border:1px solid rgba(110,86,255,.1)}
+.mc-tag.mct-green{color:var(--green);background:rgba(0,230,138,.06);border:1px solid rgba(0,230,138,.1)}
+.mc-tag.mct-orange{color:var(--orange);background:rgba(255,122,69,.06);border:1px solid rgba(255,122,69,.1)}
+.mega-card .mc-arrow{color:var(--w20);font-size:16px;margin-top:8px;flex-shrink:0;transition:all .25s}
+.mega-card:hover .mc-arrow{color:var(--w60);transform:translateX(3px)}
+
+/* Smaller product cards for 2-col grid (Platforms) */
+.mega-card-sm{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;border-radius:8px;
+  border:1px solid var(--w04);
+  transition:all .25s;text-decoration:none;color:inherit;
+}
+.mega-card-sm:hover{border-color:var(--w08);background:rgba(242,244,250,.03)}
+.mega-card-sm .mc-icon{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:15px;flex-shrink:0}
+.mega-card-sm .mc-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.mega-card-sm .mc-desc{font-size:10px;color:var(--w40);line-height:1.4}
+
+@media(max-width:768px){
+  .nav-l{display:none}
+  .ham{display:flex}
+}

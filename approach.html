@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Approach — Vikat.AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,200..800;1,9..40,200..800&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050507;--bg2:#0a0b0f;--sf:#111318;--sf2:#181a22;
+  --w:#f2f4fa;--w80:rgba(242,244,250,.8);--w60:rgba(242,244,250,.6);
+  --w40:rgba(242,244,250,.4);--w20:rgba(242,244,250,.2);
+  --w08:rgba(242,244,250,.08);--w04:rgba(242,244,250,.04);
+  --cyan:#00d4ff;--violet:#6e56ff;--green:#00e68a;--orange:#ff7a45;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono','SF Mono',Consolas,monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--w);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+::selection{background:rgba(0,212,255,.2)}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;border:none;cursor:pointer;background:none;color:inherit}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:128px}
+
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(28px,5vw,72px);height:68px;background:rgba(5,5,7,.96);backdrop-filter:blur(28px) saturate(1.4);border-bottom:1px solid var(--w04)}
+.logo{display:flex;align-items:center;gap:10px;position:relative;z-index:2}
+.logo-m{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--violet));display:grid;place-items:center;font-weight:700;font-size:15px;color:var(--bg)}
+.logo-t{font-weight:600;font-size:18px;letter-spacing:-.4px}.logo-t i{font-style:normal;color:var(--cyan)}
+.nav-l{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-l a{font-size:14px;font-weight:400;color:var(--w60);transition:color .25s}
+.nav-l a:hover{color:var(--w)}.nav-l a.active{color:var(--cyan)}
+.nav-c{font-size:13px;font-weight:500;padding:9px 24px;border-radius:100px;border:1px solid var(--w08);color:var(--w80);transition:all .3s}
+.nav-c:hover{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 24px rgba(0,212,255,.12)}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:2}
+.ham span{width:22px;height:1.5px;background:var(--w);display:block}
+.mega-parent{position:relative;display:flex;align-items:center;height:100%}
+.mega-menu{
+  position:absolute;top:100%;right:0;width:560px;
+  background:#141720;
+  border:1px solid rgba(242,244,250,.15);
+  border-radius:14px;padding:24px;
+  opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:all .25s;pointer-events:none;margin-top:0;
+  box-shadow:0 24px 80px rgba(0,0,0,.8),0 0 0 1px rgba(242,244,250,.08),0 0 60px rgba(0,0,0,.5);
+}
+.mega-menu::before{content:'';position:absolute;top:-24px;left:0;right:0;height:28px;background:transparent}
+.mega-parent:hover .mega-menu{opacity:1;visibility:visible;transform:translateY(0);pointer-events:all}
+.mega-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mega-col-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--w);padding:6px 12px;margin-bottom:6px;font-weight:500}
+.mega-link{display:block;padding:10px 12px;border-radius:8px;transition:background .2s}
+.mega-link:hover{background:rgba(242,244,250,.06)}
+.mega-link .ml-t{font-size:13px;font-weight:600;color:var(--w)}
+.mega-link .ml-d{font-size:11px;color:var(--w80);margin-top:2px}
+.mega-card{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 16px;border-radius:10px;
+  border:1px solid var(--w04);
+  margin-bottom:8px;transition:all .25s;text-decoration:none;color:inherit;
+}
+.mega-card:last-child{margin-bottom:0}
+.mega-card:hover{border-color:var(--w08);background:rgba(242,244,250,.03);transform:translateX(4px)}
+.mega-card .mc-icon{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.mc-icon.mc-cyan{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15)}
+.mc-icon.mc-violet{background:rgba(110,86,255,.08);border:1px solid rgba(110,86,255,.15)}
+.mc-icon.mc-green{background:rgba(0,230,138,.08);border:1px solid rgba(0,230,138,.15)}
+.mega-card .mc-text{flex:1;min-width:0}
+.mega-card .mc-title{font-size:14px;font-weight:600;margin-bottom:3px}
+.mega-card .mc-desc{font-size:11px;color:var(--w80);line-height:1.5}
+.mega-card .mc-tag{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:1.2px;display:inline-block;margin-top:6px;padding:3px 9px;border-radius:100px}
+.mc-tag.mct-cyan{color:var(--cyan);background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.1)}
+.mc-tag.mct-violet{color:var(--violet);background:rgba(110,86,255,.06);border:1px solid rgba(110,86,255,.1)}
+.mc-tag.mct-green{color:var(--green);background:rgba(0,230,138,.06);border:1px solid rgba(0,230,138,.1)}
+.mega-card .mc-arrow{color:var(--w20);font-size:16px;margin-top:8px;flex-shrink:0;transition:all .25s}
+.mega-card:hover .mc-arrow{color:var(--w60);transform:translateX(3px)}
+
+/* ═══ HERO ═══ */
+.page-hero{position:relative;z-index:2;padding:140px clamp(24px,6vw,80px) 60px;text-align:center;overflow:hidden}
+.page-hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:900px;height:500px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,212,255,.08),rgba(110,86,255,.04),transparent 70%);filter:blur(60px);pointer-events:none}
+.sn{font-family:var(--mono);font-size:13px;color:var(--cyan);letter-spacing:2px;display:flex;align-items:center;gap:14px}
+.page-hero .sn{justify-content:center;margin-bottom:20px}
+.page-hero h1{font-family:var(--serif);font-size:clamp(36px,6.5vw,72px);font-weight:400;font-style:italic;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;position:relative;z-index:2}
+.page-hero h1 strong{font-weight:400;font-style:normal;color:var(--cyan)}
+
+/* 3-step overview */
+.steps-overview{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;max-width:1000px;margin:48px auto 0;position:relative;z-index:2}
+.step-ov{text-align:center;padding:0 12px}
+.step-ov-num{width:80px;height:80px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;font-family:var(--mono);font-size:24px;font-weight:600;transition:transform .4s}
+.step-ov:nth-child(1) .step-ov-num{background:rgba(0,212,255,.08);border:2px solid rgba(0,212,255,.25);color:var(--cyan)}
+.step-ov:nth-child(3) .step-ov-num{background:rgba(0,230,138,.08);border:2px solid rgba(0,230,138,.25);color:var(--green)}
+.step-ov:nth-child(5) .step-ov-num{background:rgba(110,86,255,.08);border:2px solid rgba(110,86,255,.25);color:var(--violet)}
+.step-ov:hover .step-ov-num{transform:scale(1.1)}
+.step-ov h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.step-ov p{font-size:12px;color:var(--w60);line-height:1.5;max-width:220px;margin:0 auto}
+.step-arrow{font-size:24px;color:var(--w20);margin-top:-32px}
+
+/* ═══ SECTIONS ═══ */
+.s{position:relative;z-index:2;padding:clamp(60px,8vw,120px) clamp(24px,6vw,80px);border-top:1px solid var(--w04)}
+.si{max-width:1120px;margin:0 auto}
+.s-alt{background:var(--bg2)}
+
+/* Section header */
+.sec-head{display:flex;align-items:flex-start;gap:24px;margin-bottom:clamp(32px,4vw,48px)}
+.sec-num{width:56px;height:56px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;font-family:var(--mono);font-size:18px;font-weight:600}
+.sec-num.n-cyan{background:rgba(0,212,255,.08);border:2px solid rgba(0,212,255,.2);color:var(--cyan)}
+.sec-num.n-green{background:rgba(0,230,138,.08);border:2px solid rgba(0,230,138,.2);color:var(--green)}
+.sec-num.n-violet{background:rgba(110,86,255,.08);border:2px solid rgba(110,86,255,.2);color:var(--violet)}
+.sec-head-text h2{font-family:var(--serif);font-size:clamp(28px,4vw,46px);font-weight:400;font-style:italic;letter-spacing:-1px;line-height:1.1;margin-bottom:8px}
+.sec-head-text h2 strong{font-weight:400;font-style:normal;color:var(--cyan)}
+.sec-head-text h2 strong.hl-green{color:var(--green)}
+.sec-head-text h2 strong.hl-violet{color:var(--violet)}
+.sec-head-text p{font-size:15px;font-weight:300;color:var(--w80);line-height:1.7;max-width:560px}
+
+/* North Star */
+.northstar{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:2px;margin-bottom:32px}
+.northstar.ns-cyan{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.15);color:var(--cyan)}
+.northstar.ns-green{background:rgba(0,230,138,.06);border:1px solid rgba(0,230,138,.15);color:var(--green)}
+.northstar.ns-violet{background:rgba(110,86,255,.06);border:1px solid rgba(110,86,255,.15);color:var(--violet)}
+
+/* ═══ PHASE NAV (inline breadcrumb per section) ═══ */
+.phase-nav{
+  display:flex;align-items:center;gap:0;
+  margin-bottom:28px;
+  background:var(--sf);border:1px solid var(--w04);border-radius:14px;
+  padding:6px;overflow-x:auto;
+  scrollbar-width:none;
+}
+.phase-nav::-webkit-scrollbar{display:none}
+.phase-nav .pn-step{
+  flex:1;min-width:0;
+  display:flex;align-items:center;gap:10px;
+  padding:12px 16px;border-radius:10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:1px;
+  color:var(--w60);
+  cursor:pointer;text-decoration:none;
+  transition:all .3s;position:relative;
+}
+.phase-nav .pn-step:hover{background:var(--w04);color:var(--w80)}
+.pn-num{
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;flex-shrink:0;
+  font-size:11px;font-weight:700;
+  border:1.5px solid var(--w08);
+  background:var(--bg);
+  transition:all .3s;
+}
+.pn-name{font-weight:500;white-space:nowrap}
+.pn-time{font-size:9px;color:var(--w40);letter-spacing:.8px;white-space:nowrap}
+.pn-arrow{
+  width:24px;flex-shrink:0;text-align:center;
+  font-size:16px;font-weight:600;
+}
+
+/* Cyan phase nav */
+.pn-cyan .pn-step:hover{background:rgba(0,212,255,.04)}
+.pn-cyan .pn-num{border-color:rgba(0,212,255,.2);color:var(--cyan)}
+.pn-cyan .pn-arrow{color:var(--cyan);opacity:.4}
+.pn-cyan .pn-step:hover .pn-num{background:rgba(0,212,255,.1);border-color:var(--cyan);box-shadow:0 0 12px rgba(0,212,255,.15)}
+
+/* Green phase nav */
+.pn-green .pn-step:hover{background:rgba(0,230,138,.04)}
+.pn-green .pn-num{border-color:rgba(0,230,138,.2);color:var(--green)}
+.pn-green .pn-arrow{color:var(--green);opacity:.4}
+.pn-green .pn-step:hover .pn-num{background:rgba(0,230,138,.1);border-color:var(--green);box-shadow:0 0 12px rgba(0,230,138,.15)}
+
+/* Violet phase nav */
+.pn-violet .pn-step:hover{background:rgba(110,86,255,.04)}
+.pn-violet .pn-num{border-color:rgba(110,86,255,.2);color:var(--violet)}
+.pn-violet .pn-arrow{color:var(--violet);opacity:.4}
+.pn-violet .pn-step:hover .pn-num{background:rgba(110,86,255,.1);border-color:var(--violet);box-shadow:0 0 12px rgba(110,86,255,.15)}
+
+/* ═══ JOURNEY CARDS ═══ */
+.jcards{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  position:relative;margin-bottom:32px;
+}
+.jcards::before{
+  content:'';position:absolute;top:32px;left:4%;right:4%;height:3px;
+  border-radius:100px;z-index:0;
+}
+.jcards.jc-cyan::before{background:linear-gradient(90deg,var(--cyan),rgba(0,212,255,.15))}
+.jcards.jc-green::before{background:linear-gradient(90deg,var(--green),rgba(0,230,138,.15))}
+.jcards.jc-violet::before{background:linear-gradient(90deg,var(--violet),rgba(110,86,255,.15))}
+
+.jcard{
+  background:var(--sf);border:1px solid var(--w04);border-radius:16px;
+  padding:20px 18px;position:relative;z-index:2;
+  transition:border-color .4s,transform .3s;
+}
+.jcard:hover{transform:translateY(-4px)}
+.jc-cyan .jcard:hover{border-color:rgba(0,212,255,.15)}
+.jc-green .jcard:hover{border-color:rgba(0,230,138,.15)}
+.jc-violet .jcard:hover{border-color:rgba(110,86,255,.15)}
+
+/* Phase dot + label at top */
+.jc-top{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.jc-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
+.jc-cyan .jc-dot{background:var(--cyan);box-shadow:0 0 10px rgba(0,212,255,.3)}
+.jc-green .jc-dot{background:var(--green);box-shadow:0 0 10px rgba(0,230,138,.3)}
+.jc-violet .jc-dot{background:var(--violet);box-shadow:0 0 10px rgba(110,86,255,.3)}
+.jc-phase-name{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px}
+.jc-cyan .jc-phase-name{color:var(--cyan)}
+.jc-green .jc-phase-name{color:var(--green)}
+.jc-violet .jc-phase-name{color:var(--violet)}
+
+.jcard h4{font-size:16px;font-weight:600;margin-bottom:4px;letter-spacing:-.2px}
+.jc-duration{
+  font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;
+  color:var(--w60);margin-bottom:14px;display:flex;align-items:center;gap:6px;
+}
+.jc-dur-badge{padding:3px 10px;border-radius:100px;font-weight:500}
+.jc-cyan .jc-dur-badge{background:rgba(0,212,255,.08);color:var(--cyan);border:1px solid rgba(0,212,255,.12)}
+.jc-green .jc-dur-badge{background:rgba(0,230,138,.08);color:var(--green);border:1px solid rgba(0,230,138,.12)}
+.jc-violet .jc-dur-badge{background:rgba(110,86,255,.08);color:var(--violet);border:1px solid rgba(110,86,255,.12)}
+.jc-outcome{
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--w04);
+}
+.jc-out-label{
+  font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;
+  padding:3px 10px;border-radius:100px;display:inline-block;margin-bottom:8px;
+}
+.jc-cyan .jc-out-label{background:rgba(0,212,255,.08);color:var(--cyan);border:1px solid rgba(0,212,255,.12)}
+.jc-green .jc-out-label{background:rgba(0,230,138,.08);color:var(--green);border:1px solid rgba(0,230,138,.12)}
+.jc-violet .jc-out-label{background:rgba(110,86,255,.08);color:var(--violet);border:1px solid rgba(110,86,255,.12)}
+.jc-out-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.jc-out-row:last-child{margin-bottom:0}
+.jc-out-check{font-size:11px;flex-shrink:0}
+.jc-cyan .jc-out-check{color:var(--cyan)}
+.jc-green .jc-out-check{color:var(--green)}
+.jc-violet .jc-out-check{color:var(--violet)}
+.jc-out-text{font-size:11px;color:var(--w80)}
+
+/* People / Platforms / Process rows inside card */
+.jc-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--w04)}
+.jc-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.jc-row-icon{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:12px;flex-shrink:0;margin-top:1px}
+.jc-cyan .jc-row-icon{background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.08)}
+.jc-green .jc-row-icon{background:rgba(0,230,138,.06);border:1px solid rgba(0,230,138,.08)}
+.jc-violet .jc-row-icon{background:rgba(110,86,255,.06);border:1px solid rgba(110,86,255,.08)}
+.jc-row-label{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:2px}
+.jc-cyan .jc-row-label{color:var(--cyan)}
+.jc-green .jc-row-label{color:var(--green)}
+.jc-violet .jc-row-label{color:var(--violet)}
+.jc-row-text{font-size:12px;color:var(--w80);line-height:1.5}
+.jc-row-text strong{color:var(--w);font-weight:500}
+
+/* ═══ OUTCOMES ═══ */
+.outcomes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.outcome{background:var(--sf);border:1px solid var(--w04);border-radius:12px;padding:16px;text-align:center;transition:border-color .3s}
+.outcome:hover{border-color:var(--w08)}
+.outcome .o-val{font-size:clamp(22px,2.5vw,32px);font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:4px}
+.outcome.oc-cyan .o-val{background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.outcome.oc-green .o-val{background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.outcome.oc-violet .o-val{background:linear-gradient(135deg,var(--violet),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.outcome .o-lbl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--w60);font-weight:500}
+
+/* ═══ CTA ═══ */
+.cta-s{background:var(--bg);position:relative;overflow:hidden}
+.cta-g{position:absolute;width:600px;height:600px;border-radius:50%;top:-250px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(0,212,255,.07),transparent 70%);filter:blur(60px);pointer-events:none}
+.cta-i{text-align:center;position:relative;z-index:2;max-width:620px;margin:0 auto}
+.cta-i h2{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:400;font-style:italic;letter-spacing:-1px;line-height:1.1;margin-bottom:18px}
+.cta-i h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta-i p{font-size:16px;font-weight:300;color:var(--w80);margin-bottom:36px;line-height:1.7}
+.cta-b{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.bf{display:inline-flex;align-items:center;gap:8px;padding:15px 34px;border-radius:100px;background:var(--w);color:var(--bg);font-size:14px;font-weight:600;transition:all .35s}
+.bf:hover{background:var(--cyan);box-shadow:0 8px 32px rgba(0,212,255,.25);transform:translateY(-2px)}
+.bf .a{font-size:16px;transition:transform .3s}.bf:hover .a{transform:translateX(4px)}
+.bl{display:inline-flex;align-items:center;gap:8px;padding:15px 34px;border-radius:100px;border:1px solid var(--w08);color:var(--w80);font-size:14px;font-weight:400;transition:all .35s}
+.bl:hover{border-color:var(--w20);color:var(--w)}
+
+/* ═══ FOOTER ═══ */
+footer{padding:48px clamp(24px,5vw,72px) 28px;border-top:1px solid var(--w04);background:var(--bg);position:relative;z-index:2}
+.fi{max-width:1120px;margin:0 auto}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.fd{font-size:13px;color:var(--w60);line-height:1.7;margin-top:14px;max-width:280px}
+.fc h5{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--w60);margin-bottom:16px}
+.fc ul{list-style:none}.fc ul li{margin-bottom:10px}
+.fc ul a{font-size:13px;color:var(--w60);transition:color .2s}.fc ul a:hover{color:var(--cyan)}
+.fb{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--w04)}
+.fb-c{font-size:11px;color:var(--w20)}
+.fb-l{display:flex;gap:20px}.fb-l a{font-size:11px;color:var(--w20);transition:color .2s}.fb-l a:hover{color:var(--w40)}
+
+.rv{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.rv.v{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+@keyframes forceShow{to{opacity:1;transform:translateY(0)}}
+.rv{animation:forceShow 0s ease 3s forwards}
+.pct{position:fixed;bottom:20px;right:24px;z-index:50;font-family:var(--mono);font-size:11px;color:var(--w20);letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.pct-b{width:40px;height:2px;background:var(--w08);border-radius:2px;overflow:hidden}
+.pct-f{height:100%;width:0%;background:var(--cyan);transition:width .15s;border-radius:2px}
+
+@media(max-width:1024px){
+  .steps-overview{grid-template-columns:1fr;gap:24px}.step-arrow{display:none}
+  .jcards{grid-template-columns:repeat(2,1fr)}
+  .jcards::before{display:none}
+  .outcomes{grid-template-columns:repeat(2,1fr)}
+  .ft{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-l{display:none}.ham{display:flex}
+  .jcards{grid-template-columns:1fr}
+  .outcomes{grid-template-columns:1fr 1fr}
+  .sec-head{flex-direction:column;align-items:center;text-align:center}
+  .sec-head-text p{margin:0 auto}
+  .tl-labels{display:none}
+  .tl-row{grid-template-columns:90px 1fr}
+  .tl-week{font-size:10px;padding:14px 12px}
+  .tl-content{padding:14px 16px;flex-wrap:wrap;gap:6px}
+  .ft{grid-template-columns:1fr;gap:24px}
+  .fb{flex-direction:column;gap:12px;text-align:center}
+  .pct{display:none}
+}
+.mega-card-sm{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:1px solid var(--w04);transition:all .25s;text-decoration:none;color:inherit}
+.mega-card-sm:hover{border-color:var(--w08);background:rgba(242,244,250,.03)}
+.mega-card-sm .mc-icon{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;flex-shrink:0}
+.mega-card-sm .mc-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.mega-card-sm .mc-desc{font-size:10px;color:var(--w80);line-height:1.4}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo"><div class="logo-m">V</div><div class="logo-t">Vikat<i>.AI</i></div></a>
+  <ul class="nav-l">
+
+    <!-- ─── SOLUTIONS DROPDOWN ─── -->
+    <li class="mega-parent">
+      <a href="#" style="display:inline-flex;align-items:center;gap:4px">Solutions <span style="font-size:10px;opacity:.5">&#9662;</span></a>
+      <div class="mega-menu">
+        <div class="mega-col-label">Service Pillars</div>
+        <a href="cybersec.html" class="mega-card">
+          <div class="mc-icon mc-cyan">&#x1F6E1;&#xFE0F;</div>
+          <div class="mc-text">
+            <div class="mc-title" style="color:var(--cyan)">CyberSec for Agentic AI</div>
+            <div class="mc-desc">Zero-Trust security posture for AI Agents — govern every action, identity, and data access</div>
+            <span class="mc-tag mct-cyan">Flagship</span>
+          </div>
+          <div class="mc-arrow">&#x2192;</div>
+        </a>
+        <a href="bpm-platforms.html" class="mega-card">
+          <div class="mc-icon mc-violet">&#x26A1;</div>
+          <div class="mc-text">
+            <div class="mc-title" style="color:var(--violet)">Agentic Enablement for BPM / Workflow / Low-Code</div>
+            <div class="mc-desc">Enable AI Agents to work with Microsoft, PEGA, Appian &amp; enterprise middleware</div>
+            <span class="mc-tag mct-violet">Enterprise Workflow</span>
+          </div>
+          <div class="mc-arrow">&#x2192;</div>
+        </a>
+        <a href="process-intelligence.html" class="mega-card">
+          <div class="mc-icon mc-green">&#x1F52C;</div>
+          <div class="mc-text">
+            <div class="mc-title" style="color:var(--green)">Agentic ROI Intelligence using Skan.ai</div>
+            <div class="mc-desc">Discover where &amp; how to deploy AI Agents for maximum ROI with process mining</div>
+            <span class="mc-tag mct-green">Skan.AI Partner</span>
+          </div>
+          <div class="mc-arrow">&#x2192;</div>
+        </a>
+      </div>
+    </li>
+
+    <!-- ─── PLATFORMS DROPDOWN ─── -->
+    <li class="mega-parent">
+      <a href="#" style="display:inline-flex;align-items:center;gap:4px">Platforms <span style="font-size:10px;opacity:.5">&#9662;</span></a>
+      <div class="mega-menu">
+        <div class="mega-col-label">Agentic Security Stack</div>
+        <div class="mega-cols">
+          <div>
+            <a href="vcommand.html" class="mega-card-sm">
+              <div class="mc-icon mc-cyan">&#x1F9E0;</div>
+              <div class="mc-text">
+                <div class="mc-title" style="color:var(--cyan)">VCommand</div>
+                <div class="mc-desc">AI-driven risk scoring &amp; threat triage</div>
+              </div>
+            </a>
+            <a href="vshield.html" class="mega-card-sm" style="margin-top:8px">
+              <div class="mc-icon mc-orange">&#x1F510;</div>
+              <div class="mc-text">
+                <div class="mc-title" style="color:var(--orange)">VShield</div>
+                <div class="mc-desc">Runtime governance &amp; guardrails</div>
+              </div>
+            </a>
+          </div>
+          <div>
+            <a href="vsentinel.html" class="mega-card-sm">
+              <div class="mc-icon mc-violet">&#x1F4CA;</div>
+              <div class="mc-text">
+                <div class="mc-title" style="color:var(--violet)">VSentinel</div>
+                <div class="mc-desc">Decision quality &amp; performance engine</div>
+              </div>
+            </a>
+            <a href="vinsight.html" class="mega-card-sm" style="margin-top:8px">
+              <div class="mc-icon mc-green">&#x1F50D;</div>
+              <div class="mc-text">
+                <div class="mc-title" style="color:var(--green)">VInsight</div>
+                <div class="mc-desc">Process intelligence &amp; telemetry</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--w04);margin-top:14px;padding-top:14px">
+          <div class="mega-col-label">Agentic Platform Accelerator</div>
+          <a href="bpm-platforms.html" class="mega-card">
+            <div class="mc-icon mc-violet"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--violet)" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
+            <div class="mc-text">
+              <div class="mc-title" style="color:var(--violet)">Vikat Agentic Accelerator for BPM / Workflow / Low-Code</div>
+              <div class="mc-desc">Pre-built agents, workflow templates &amp; orchestration accelerators for Microsoft, PEGA &amp; Appian</div>
+              <span class="mc-tag mct-violet">Accelerator</span>
+            </div>
+            <div class="mc-arrow">&#x2192;</div>
+          </a>
+        </div>
+      </div>
+    </li>
+
+    <!-- ─── FLAT LINKS ─── -->
+    <li><a href="approach.html">Approach</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="nav-c">Contact Us</a></li>
+
+  </ul>
+  <div class="ham"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="page-hero">
+  <div class="sn rv">Our Approach</div>
+  <h1 class="rv" style="transition-delay:.1s">Is your enterprise IT<br><strong>ready for AI Agents?</strong></h1>
+  <div class="steps-overview rv" style="transition-delay:.3s">
+    <div class="step-ov"><div class="step-ov-num">01</div><h3>Secure</h3><p>Build a Zero-Trust security posture for AI Agents</p></div>
+    <div class="step-arrow">&#x2192;</div>
+    <div class="step-ov"><div class="step-ov-num">02</div><h3>Discover</h3><p>Get insight into where &amp; how to deploy AI Agents for maximum ROI</p></div>
+    <div class="step-arrow">&#x2192;</div>
+    <div class="step-ov"><div class="step-ov-num">03</div><h3>Enable</h3><p>Enable AI Agents to work with existing enterprise BPM &amp; Workflow systems</p></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     STEP 1 — ZERO-TRUST SECURITY
+     ═══════════════════════════════════════════════ -->
+<section class="s" id="step-secure">
+  <div class="si">
+    <div class="sec-head rv">
+      <div class="sec-num n-cyan">01</div>
+      <div class="sec-head-text">
+        <h2>Build a <strong>Zero-Trust Security</strong><br>Posture for AI Agents</h2>
+        <p>Before deploying AI Agents, your enterprise needs a security foundation that governs every agent action, identity, and data access.</p>
+      </div>
+    </div>
+
+    <div class="northstar ns-cyan rv d1">&#x2B50; North Star: Every agent governed, every action accountable</div>
+
+    <div class="phase-nav pn-cyan rv d1">
+      <a href="#s1-assess" class="pn-step"><div class="pn-num">1</div><div><div class="pn-name">Assess</div><div class="pn-time">Weeks 1-3</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s1-architect" class="pn-step"><div class="pn-num">2</div><div><div class="pn-name">Architect</div><div class="pn-time">Weeks 3-6</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s1-deploy" class="pn-step"><div class="pn-num">3</div><div><div class="pn-name">Deploy</div><div class="pn-time">Weeks 6-10</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s1-optimize" class="pn-step"><div class="pn-num">4</div><div><div class="pn-name">Optimize</div><div class="pn-time">Week 10+</div></div></a>
+    </div>
+
+    <div class="jcards jc-cyan rv d1">
+      <!-- Phase 1: Assess -->
+      <div class="jcard" id="s1-assess">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 1 &mdash; Assess</span></div>
+        <h4>Security Baseline</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 1-3</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>CISO advisors</strong> &amp; certified security architects run maturity assessments</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>VInsight</strong> scans your stack to baseline agent visibility &amp; risk posture</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>4A Framework</strong> &mdash; gap analysis, threat modelling, opportunity scoring</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Maturity scorecard delivered</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Risk posture baselined</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Prioritized opportunity map</span></div>
+        </div>
+      </div>
+      <!-- Phase 2: Architect -->
+      <div class="jcard" id="s1-architect">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 2 &mdash; Architect</span></div>
+        <h4>Zero-Trust Blueprint</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 3-6</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Agentic AI engineers</strong> design agent governance &amp; identity architecture</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>VCommand + VShield</strong> blueprints for RBAC, escalation paths &amp; audit trails</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Governance playbooks</strong> &mdash; Zero-Trust policies, compliance mapping, HITL rules</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Architecture blueprint signed off</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Governance framework defined</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Implementation roadmap approved</span></div>
+        </div>
+      </div>
+      <!-- Phase 3: Deploy -->
+      <div class="jcard" id="s1-deploy">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 3 &mdash; Deploy</span></div>
+        <h4>Activate &amp; Integrate</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 6-10</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>SOC integration engineers</strong> embed into your team for zero-disruption rollout</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>VCommand, VShield, VSentinel</strong> deployed live with <strong>50+ tool integrations</strong></div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Shadow-mode validation</strong> &mdash; staged activation, pre/post baseline comparison</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Agentic security stack live</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Validation report with metrics</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Runbooks &amp; training delivered</span></div>
+        </div>
+      </div>
+      <!-- Phase 4: Optimize -->
+      <div class="jcard" id="s1-optimize">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 4 &mdash; Optimize</span></div>
+        <h4>Continuous Improvement</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Week 10+</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Dedicated engagement lead</strong> drives quarterly reviews &amp; board reporting</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>VSentinel dashboards</strong> track decision quality, response velocity &amp; KPIs live</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Quarterly optimization loops</strong> &mdash; new automation candidates, compounding value</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">20-40% MTTR reduction proven</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Board-ready QBR delivered</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Continuous optimization active</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="outcomes rv d2">
+      <div class="outcome oc-cyan"><div class="o-val">20-40%</div><div class="o-lbl">MTTR Reduction</div></div>
+      <div class="outcome oc-cyan"><div class="o-val">30%</div><div class="o-lbl">Triage Effort Cut</div></div>
+      <div class="outcome oc-cyan"><div class="o-val">100%</div><div class="o-lbl">Governed Actions</div></div>
+      <div class="outcome oc-cyan"><div class="o-val">90 Day</div><div class="o-lbl">Measurable ROI</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     STEP 2 — PROCESS INTELLIGENCE
+     ═══════════════════════════════════════════════ -->
+<section class="s s-alt" id="step-discover">
+  <div class="si">
+    <div class="sec-head rv">
+      <div class="sec-num n-green">02</div>
+      <div class="sec-head-text">
+        <h2>Get Insight into <strong class="hl-green">Where &amp; How</strong><br>to Deploy AI Agents for Max ROI</h2>
+        <p>Before automating, you need to see how work actually happens. We deploy Skan.AI to mine real execution data and build the automation roadmap that delivers ROI.</p>
+      </div>
+    </div>
+
+    <div class="northstar ns-green rv d1">&#x2B50; North Star: Data-driven automation roadmap tied to ROI</div>
+
+    <div class="phase-nav pn-green rv d1">
+      <a href="#s2-discover" class="pn-step"><div class="pn-num">1</div><div><div class="pn-name">Discover</div><div class="pn-time">Weeks 1-2</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s2-analyze" class="pn-step"><div class="pn-num">2</div><div><div class="pn-name">Analyze</div><div class="pn-time">Weeks 3-4</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s2-roadmap" class="pn-step"><div class="pn-num">3</div><div><div class="pn-name">Roadmap</div><div class="pn-time">Weeks 5-6</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s2-measure" class="pn-step"><div class="pn-num">4</div><div><div class="pn-name">Measure</div><div class="pn-time">Week 6+</div></div></a>
+    </div>
+
+    <div class="jcards jc-green rv d1">
+      <div class="jcard" id="s2-discover">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 1 &mdash; Discover</span></div>
+        <h4>Process Mining</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 1-2</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Certified Skan.AI specialists</strong> &amp; process mining analysts run discovery sprints</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>Skan.AI</strong> desktop activity intelligence captures real execution paths</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>2-week discovery sprints</strong> with pre-built templates for common enterprise workflows</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Real execution paths mapped</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Undocumented workflows exposed</span></div>
+        </div>
+      </div>
+      <div class="jcard" id="s2-analyze">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 2 &mdash; Analyze</span></div>
+        <h4>Friction Detection</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 3-4</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Six Sigma experts</strong> &amp; BPM architects analyze bottlenecks &amp; rework loops</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>Skan.AI analytics</strong> identifies manual steps, cross-system delays &amp; friction points</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Friction-to-ROI scoring</strong> &mdash; rank every process by automation potential &amp; business impact</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Bottlenecks &amp; rework quantified</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Automation candidates scored</span></div>
+        </div>
+      </div>
+      <div class="jcard" id="s2-roadmap">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 3 &mdash; Roadmap</span></div>
+        <h4>Prioritize &amp; Plan</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 5-6</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Executive facilitators</strong> align stakeholders on priorities &amp; investment decisions</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>ROI scoring models</strong> calibrated to industry benchmarks &amp; your cost structure</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Phased automation roadmap</strong> with feasibility analysis &amp; resource requirements</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">ROI-ranked automation roadmap</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Stakeholder sign-off on priorities</span></div>
+        </div>
+      </div>
+      <div class="jcard" id="s2-measure">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 4 &mdash; Measure</span></div>
+        <h4>KPI-Aligned Value</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Week 6+</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Delivery manager</strong> owns continuous monitoring &amp; quarterly optimization cycles</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>Executive dashboard accelerators</strong> with cost-per-process &amp; throughput KPIs</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Quarterly optimization programs</strong> tied to measurable business outcomes</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">15-35% cycle-time reduction proven</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Cost-per-process baseline live</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="outcomes rv d2">
+      <div class="outcome oc-green"><div class="o-val">15-35%</div><div class="o-lbl">Cycle-Time Reduction</div></div>
+      <div class="outcome oc-green"><div class="o-val">20-40%</div><div class="o-lbl">Manual Effort Cut</div></div>
+      <div class="outcome oc-green"><div class="o-val">100%</div><div class="o-lbl">Cost-per-Process Baseline</div></div>
+      <div class="outcome oc-green"><div class="o-val">90 Day</div><div class="o-lbl">Visibility to Value</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     STEP 3 — BPM / WORKFLOW ENABLEMENT
+     ═══════════════════════════════════════════════ -->
+<section class="s" id="step-enable">
+  <div class="si">
+    <div class="sec-head rv">
+      <div class="sec-num n-violet">03</div>
+      <div class="sec-head-text">
+        <h2>Enable AI Agents for<br><strong class="hl-violet">Enterprise BPM &amp; Workflow</strong> Systems</h2>
+        <p>With security in place and ROI targets identified, we engineer agentic intelligence into your existing Microsoft, PEGA, Appian, and middleware platforms.</p>
+      </div>
+    </div>
+
+    <div class="northstar ns-violet rv d1">&#x2B50; North Star: AI Agents operating inside governed enterprise workflows</div>
+
+    <div class="phase-nav pn-violet rv d1">
+      <a href="#s3-readiness" class="pn-step"><div class="pn-num">1</div><div><div class="pn-name">Readiness</div><div class="pn-time">Weeks 1-2</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s3-build" class="pn-step"><div class="pn-num">2</div><div><div class="pn-name">Build</div><div class="pn-time">Weeks 3-6</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s3-govern" class="pn-step"><div class="pn-num">3</div><div><div class="pn-name">Govern</div><div class="pn-time">Weeks 6-10</div></div></a>
+      <div class="pn-arrow">&#x2192;</div>
+      <a href="#s3-scale" class="pn-step"><div class="pn-num">4</div><div><div class="pn-name">Scale</div><div class="pn-time">Week 10+</div></div></a>
+    </div>
+
+    <div class="jcards jc-violet rv d1">
+      <div class="jcard" id="s3-readiness">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 1 &mdash; Readiness</span></div>
+        <h4>Skills &amp; Platform Audit</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 1-2</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Certified PEGA, Appian &amp; Microsoft architects</strong> assess platform maturity</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>Readiness assessment tools</strong> for Copilot Studio, PEGA Blueprint &amp; Appian AI</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Gap analysis &amp; enablement plan</strong> &mdash; identify automation champions across BUs</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Platform maturity scored</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Enablement plan approved</span></div>
+        </div>
+      </div>
+      <div class="jcard" id="s3-build">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 2 &mdash; Build</span></div>
+        <h4>Agent Development</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 3-6</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Copilot &amp; low-code engineers</strong> build AI agents alongside your teams</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>Copilot Studio, Power Automate, PEGA Blueprint, Appian AI Agents</strong></div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Agentic workflow design sprints</strong> &mdash; blueprint-to-production in 2-week cycles</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">AI agents built &amp; tested</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Workflows in staging</span></div>
+        </div>
+      </div>
+      <div class="jcard" id="s3-govern">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 3 &mdash; Govern</span></div>
+        <h4>Orchestrate &amp; Control</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Weeks 6-10</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Cross-platform integration &amp; middleware experts</strong> unify governance</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>Pre-built orchestration accelerators</strong> for cross-platform agent coordination</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Unified governance framework</strong> &mdash; RBAC, audit trails, legacy modernization paths</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Agents live in production</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Governance &amp; audit active</span></div>
+        </div>
+      </div>
+      <div class="jcard" id="s3-scale">
+        <div class="jc-top"><div class="jc-dot"></div><span class="jc-phase-name">Phase 4 &mdash; Scale</span></div>
+        <h4>Autonomous Workflows</h4>
+        <div class="jc-duration"><span class="jc-dur-badge">Week 10+</span></div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F465;</div>
+          <div><div class="jc-row-label">People</div><div class="jc-row-text"><strong>Knowledge transfer &amp; training</strong> so your team owns &amp; scales the deployment</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x1F6E0;&#xFE0F;</div>
+          <div><div class="jc-row-label">Platforms</div><div class="jc-row-text"><strong>Live KPI dashboards</strong> across all platforms &mdash; throughput, accuracy, cost savings</div></div>
+        </div>
+        <div class="jc-row">
+          <div class="jc-row-icon">&#x2699;&#xFE0F;</div>
+          <div><div class="jc-row-label">Process</div><div class="jc-row-text"><strong>Quarterly optimization &amp; expansion</strong> &mdash; new use cases, compounding automation</div></div>
+        </div>
+        <div class="jc-outcome"><span class="jc-out-label">Outcomes</span>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">30-50% workflow effort reduction</span></div>
+          <div class="jc-out-row"><span class="jc-out-check">&#x2713;</span><span class="jc-out-text">Team self-sufficient &amp; scaling</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="outcomes rv d2">
+      <div class="outcome oc-violet"><div class="o-val">30-50%</div><div class="o-lbl">Workflow Effort Reduction</div></div>
+      <div class="outcome oc-violet"><div class="o-val">40-60%</div><div class="o-lbl">Faster Delivery Cycles</div></div>
+      <div class="outcome oc-violet"><div class="o-val">100%</div><div class="o-lbl">Governed Agent Workflows</div></div>
+      <div class="outcome oc-violet"><div class="o-val">90 Day</div><div class="o-lbl">Automation ROI</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="s cta-s">
+  <div class="cta-g"></div>
+  <div class="si">
+    <div class="cta-i rv">
+      <h2>Ready to make your<br>enterprise <em>AI-Agent ready?</em></h2>
+      <p>Secure. Discover. Enable. Three steps to enterprise agentic AI that actually works.</p>
+      <div class="cta-b">
+        <a href="/cdn-cgi/l/email-protection#f39a9d959cb3859a989287dd929a" class="bf">Schedule a Briefing <span class="a">&rarr;</span></a>
+        <a href="index.html" class="bl">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi">
+    <div class="ft">
+      <div>
+        <a href="index.html" class="logo"><div class="logo-m">V</div><div class="logo-t">Vikat<i>.AI</i></div></a>
+        <p class="fd">The Enterprise Agentic AI Accelerator.</p>
+      </div>
+      <div class="fc"><h5>Solutions</h5><ul><li><a href="index.html#cybersec">CyberSec Ops</a></li><li><a href="bpm-platforms.html">BPM Platforms</a></li><li><a href="process-intelligence.html">Process Intelligence</a></li></ul></div>
+      <div class="fc"><h5>Platforms</h5><ul><li><a href="vcommand.html">VCommand</a></li><li><a href="vsentinel.html">VSentinel</a></li><li><a href="vshield.html">VShield</a></li><li><a href="vinsight.html">VInsight</a></li></ul></div>
+      <div class="fc"><h5>Company</h5><ul><li><a href="about.html">About</a></li><li><a href="#">Careers</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="fb">
+      <span class="fb-c">&copy; 2026 Vikat.AI</span>
+      <div class="fb-l"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<div class="pct"><div class="pct-b"><div class="pct-f" id="pf"></div></div><span id="pn">0</span>%</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+if('IntersectionObserver' in window){var ob=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');ob.unobserve(e.target)}})},{threshold:0.05,rootMargin:'0px 0px -20px 0px'});document.querySelectorAll('.rv').forEach(function(el){ob.observe(el)})}else{document.querySelectorAll('.rv').forEach(function(el){el.classList.add('v')})}
+var pf=document.getElementById('pf'),pn=document.getElementById('pn');window.addEventListener('scroll',function(){var p=Math.round(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100);pf.style.width=p+'%';pn.textContent=p},{passive:true});
+
+/* Phase nav smooth scroll */
+document.querySelectorAll('.pn-step').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(thi
